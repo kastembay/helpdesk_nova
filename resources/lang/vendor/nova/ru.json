@@ -432,5 +432,13 @@
     "Phone organization": "Телефон",
     "Site": "Сайт",
     "City": "Город",
-    "Address": "Адрес местонахождения"
+    "Address": "Адрес местонахождения",
+    "Organization contact": "Организация",
+    "Firstname": "Фамилия",
+    "Lastname": "Имя",
+    "Patronymic": "Отчество",
+    "Position": "Должность",
+    "Phone": "Телефон",
+    "FIO": "ФИО",
+    "organization": "Организация"
 }

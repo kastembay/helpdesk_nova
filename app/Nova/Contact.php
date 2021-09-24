@@ -3,25 +3,26 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Organization extends Resource
+class Contact extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Organization::class;
+    public static $model = \App\Models\Contact::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'company';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -46,7 +47,7 @@ class Organization extends Resource
      */
     public static function label()
     {
-        return __('Организации');
+        return __('Контакты');
     }
 
     /**
@@ -56,7 +57,7 @@ class Organization extends Resource
      */
     public static function singularLabel()
     {
-        return __('Организация');
+        return __('Контакт');
     }
 
     /**
@@ -79,8 +80,6 @@ class Organization extends Resource
         return __('Сохранить');
     }
 
-
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -91,19 +90,26 @@ class Organization extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make(__('Organization name'), 'company')
-                ->rules('required'),
-            Text::make(__('Phone organization'), 'phone')
-                ->nullable(),
-            Text::make(__('Site'),'site')
-                ->nullable()
-                ->hideFromIndex(),
-            Text::make(__('City'), 'city')
-                ->nullable()
-                ->hideFromIndex(),
-            Text::make(__('Address'), 'address')
+            BelongsTo::make( 'organization')->rules('required'),
+            Text::make(__('FIO'), 'fio', function (){
+                return $this->firstname . ' ' . $this->lastname . ' ' . $this->patronymic;
+            })->hideWhenCreating()
+                ->hideWhenUpdating(),
+            Text::make(__('Firstname'), 'firstname')
                 ->rules('required')
                 ->hideFromIndex()
+                ->hideFromDetail(),
+            Text::make(__('Lastname') , 'lastname')
+                ->rules('required')
+                ->hideFromIndex()
+                ->hideFromDetail(),
+            Text::make(__('Patronymic'), 'patronymic')
+                ->nullable()
+                ->hideFromIndex()
+                ->hideFromDetail(),
+            Text::make(__('Position'), 'position')->nullable(),
+            Text::make(__('Phone'), 'phone')->nullable(),
+
 
         ];
     }
