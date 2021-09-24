@@ -440,5 +440,6 @@
     "Position": "Должность",
     "Phone": "Телефон",
     "FIO": "ФИО",
-    "organization": "Организация"
+    "organization": "Организация",
+    "Name priority": "Название приоритета"
 }
