@@ -4,35 +4,36 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Contact extends Resource
+class Claim extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Contact::class;
+    public static $model = \App\Models\Claim::class;
 
     /**
-     * Get the value that should be displayed to represent the resource.
+     * The single value that should be used to represent the resource when being displayed.
      *
-     * @return string
+     * @var string
      */
-    public function title()
-    {
-        return $this->firstname . ' ' . $this->lastname . ' ' . $this->patronymic . '/' . $this->organization->company;
-    }
+    public static $title = 'theme';
 
     /**
      * The relationships that should be eager loaded on index queries.
      *
      * @var array
      */
-    public static $with = ['organization'];
+    public static $with = ['contact', 'user', 'priority'];
+
 
     /**
      * The columns that should be searched.
@@ -57,7 +58,7 @@ class Contact extends Resource
      */
     public static function label()
     {
-        return __('Контакты');
+        return __('Заявки');
     }
 
     /**
@@ -67,7 +68,7 @@ class Contact extends Resource
      */
     public static function singularLabel()
     {
-        return __('Контакт');
+        return __('Заявка');
     }
 
     /**
@@ -100,26 +101,19 @@ class Contact extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make( 'organization')->rules('required'),
-            Text::make(__('FIO'), 'fio', function (){
-                return $this->firstname . ' ' . $this->lastname . ' ' . $this->patronymic;
-            })->hideWhenCreating()
-                ->hideWhenUpdating(),
-            Text::make(__('Firstname'), 'firstname')
-                ->rules('required')
-                ->hideFromIndex()
-                ->hideFromDetail(),
-            Text::make(__('Lastname') , 'lastname')
-                ->rules('required')
-                ->hideFromIndex()
-                ->hideFromDetail(),
-            Text::make(__('Patronymic'), 'patronymic')
-                ->nullable()
-                ->hideFromIndex()
-                ->hideFromDetail(),
-            Text::make(__('Position'), 'position')->nullable(),
-            Text::make(__('Phone'), 'phone')->nullable(),
-
+            Text::make(__('Theme'), 'theme')->rules('required'),
+            BelongsTo::make('contact')->rules('required'),
+            BelongsTo::make('user')->rules('required'),
+            BelongsTo::make('priority')->rules('required'),
+            Trix::make(__('Appeal'),'appeal')->rules('required', 'min:20')->hideFromIndex(),
+            Boolean::make(__('Departure'), 'departure')
+                ->trueValue(1)
+                ->falseValue(0)
+                ->hideFromIndex(),
+            Boolean::make(__('Active'), 'active')
+                ->trueValue(1)
+                ->falseValue(0),
+            File::make('Attachment'),
         ];
     }
 
