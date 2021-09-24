@@ -427,5 +427,10 @@
     "Published On": "Опубликован",
     "Active?": "Опубликовать?",
     "Title category": "Название категории",
-    "Slug category": "ЧПУ категории"
+    "Slug category": "ЧПУ категории",
+    "Organization name": "Название компании",
+    "Phone organization": "Телефон",
+    "Site": "Сайт",
+    "City": "Город",
+    "Address": "Адрес местонахождения"
 }
