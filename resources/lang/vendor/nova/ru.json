@@ -453,5 +453,7 @@
     "Contacts": "Контакты",
     "Contact": "Контакт",
     "Priorities": "Приоритеты",
-    "Priority": "Приоритет"
+    "Priority": "Приоритет",
+    "Organization": "Организация",
+    "Applications by organization": "Заявки по организациям"
 }

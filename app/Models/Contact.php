@@ -13,4 +13,9 @@ class Contact extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function claims()
+    {
+        return $this->hasMany(Claim::class);
+    }
 }

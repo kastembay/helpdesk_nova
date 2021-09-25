@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Nova\Cards\ClaimsByOrganization;
 use App\Nova\Metrics\CountDepartureClaims;
 use App\Nova\Metrics\MetricsClaims;
 use App\Nova\Metrics\OpenClaims;
@@ -63,6 +64,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new CountDepartureClaims,
             new OpenClaims,
 //            new Help,
+            new ClaimsByOrganization
         ];
     }
 
