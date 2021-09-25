@@ -125,7 +125,10 @@ class Claim extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new Metrics\MetricsClaims,
+            new Metrics\CountDepartureClaims
+        ];
     }
 
     /**
