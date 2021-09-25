@@ -57,7 +57,7 @@ class Contact extends Resource
      */
     public static function label()
     {
-        return __('Контакты');
+        return __('Contacts');
     }
 
     /**
@@ -67,7 +67,7 @@ class Contact extends Resource
      */
     public static function singularLabel()
     {
-        return __('Контакт');
+        return __('Contact');
     }
 
     /**
@@ -77,7 +77,7 @@ class Contact extends Resource
      */
     public static function createButtonLabel()
     {
-        return __('Создать');
+        return __('Create');
     }
 
     /**
@@ -87,7 +87,7 @@ class Contact extends Resource
      */
     public static function updateButtonLabel()
     {
-        return __('Сохранить');
+        return __('Save');
     }
 
     /**

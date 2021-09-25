@@ -37,7 +37,7 @@ class Priority extends Resource
      */
     public static function label()
     {
-        return __('Приоритеты');
+        return __('Priorities');
     }
 
     /**
@@ -47,7 +47,7 @@ class Priority extends Resource
      */
     public static function singularLabel()
     {
-        return __('Приоритет');
+        return __('Priority');
     }
 
     /**
@@ -57,7 +57,7 @@ class Priority extends Resource
      */
     public static function createButtonLabel()
     {
-        return __('Создать');
+        return __('Create');
     }
 
     /**
@@ -67,7 +67,7 @@ class Priority extends Resource
      */
     public static function updateButtonLabel()
     {
-        return __('Сохранить');
+        return __('Save');
     }
 
     /**

@@ -39,19 +39,31 @@ class Claim extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('active', 1);
-    }
-
-    public function scopeInactive($query)
-    {
         return $query->where('active', 0);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeInactive($query)
+    {
+        return $query->where('active', 1);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeDeparture($query)
     {
         return $this->where('departure', 1);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeNodeparture($query)
     {
         return $this->where('departure', 0);

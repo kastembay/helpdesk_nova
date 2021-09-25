@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Nova\Metrics\CountDepartureClaims;
+use App\Nova\Metrics\MetricsClaims;
+use App\Nova\Metrics\OpenClaims;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -56,7 +59,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            new MetricsClaims,
+            new CountDepartureClaims,
+            new OpenClaims,
+//            new Help,
         ];
     }
 

@@ -58,7 +58,7 @@ class Claim extends Resource
      */
     public static function label()
     {
-        return __('Заявки');
+        return __('Claims');
     }
 
     /**
@@ -68,7 +68,7 @@ class Claim extends Resource
      */
     public static function singularLabel()
     {
-        return __('Заявка');
+        return __('Claim');
     }
 
     /**
@@ -78,7 +78,7 @@ class Claim extends Resource
      */
     public static function createButtonLabel()
     {
-        return __('Создать');
+        return __('Create');
     }
 
     /**
@@ -88,7 +88,7 @@ class Claim extends Resource
      */
     public static function updateButtonLabel()
     {
-        return __('Сохранить');
+        return __('Save');
     }
 
     /**
@@ -127,7 +127,8 @@ class Claim extends Resource
     {
         return [
             new Metrics\MetricsClaims,
-            new Metrics\CountDepartureClaims
+            new Metrics\CountDepartureClaims,
+            new Metrics\OpenClaims
         ];
     }
 
