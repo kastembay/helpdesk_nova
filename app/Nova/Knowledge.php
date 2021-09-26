@@ -3,57 +3,36 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Claim extends Resource
+class Knowledge extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Claim::class;
+    public static $model = \App\Models\Knowledge::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'theme';
-
-    /**
-     * The relationships that should be eager loaded on index queries.
-     *
-     * @var array
-     */
-    public static $with = ['contact', 'user', 'priority'];
-
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id',
-        'theme',
-        'appeal'
-    ];
+    public static $title = 'id';
 
     /**
      * The logical group associated with the resource.
      *
      * @var string
      */
-    public static $group = 'Заявки';
+    public static $group = 'База знаний';
 
     /**
      * Get the displayable label of the resource.
@@ -62,7 +41,7 @@ class Claim extends Resource
      */
     public static function label()
     {
-        return __('Claims');
+        return __('Knowledges');
     }
 
     /**
@@ -72,7 +51,7 @@ class Claim extends Resource
      */
     public static function singularLabel()
     {
-        return __('Claim');
+        return __('Knowledge');
     }
 
     /**
@@ -96,6 +75,17 @@ class Claim extends Resource
     }
 
     /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'id',
+        'title',
+        'body'
+    ];
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -105,28 +95,14 @@ class Claim extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make(__('Theme'), 'theme')->rules('required')->asHtml(),
-            BelongsTo::make('contact')->rules('required'),
-            BelongsTo::make('user')->rules('required'),
-            BelongsTo::make('priority')->rules('required'),
-            Trix::make(__('Appeal'),'appeal')
-                ->rules('required', 'min:20')
-                ->alwaysShow()
-                ->hideFromIndex(),
-            Boolean::make(__('Departure'), 'departure')
-                ->trueValue(1)
-                ->falseValue(0)
-                ->hideFromIndex(),
-            Boolean::make(__('Active'), 'active')
-                ->trueValue(1)
-                ->falseValue(0),
-            File::make('Attachment'),
-
-            HasMany::make('ClaimsComments')
-
+            Text::make(__('Title'), 'title')->rules('required'),
+            Image::make(__('Cover'), 'cover')->nullable()->disableDownload(),
+            Trix::make(__('Body'), 'body')->hideFromIndex()->alwaysShow(),
+            BelongsTo::make('user'),
+            BelongsTo::make('organization'),
+            File::make('file')
         ];
     }
-
 
     /**
      * Get the cards available for the request.
@@ -136,11 +112,7 @@ class Claim extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            new Metrics\MetricsClaims,
-            new Metrics\CountDepartureClaims,
-            new Metrics\OpenClaims
-        ];
+        return [];
     }
 
     /**
