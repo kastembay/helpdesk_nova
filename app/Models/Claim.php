@@ -48,7 +48,7 @@ class Claim extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('active', 0);
+        return $query->where('active', 1);
     }
 
     /**
@@ -57,7 +57,7 @@ class Claim extends Model
      */
     public function scopeInactive($query)
     {
-        return $query->where('active', 1);
+        return $query->where('active', 0);
     }
 
     /**
