@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Actions\Actionable;
 
 class Claim extends Model
 {
-    use HasFactory;
+    use HasFactory, Actionable;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -31,6 +32,14 @@ class Claim extends Model
     public function priority()
     {
         return $this->belongsTo(Priority::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ClaimsComments()
+    {
+        return $this->hasMany(ClaimsComment::class);
     }
 
     /**

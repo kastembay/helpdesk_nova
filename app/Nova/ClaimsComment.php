@@ -3,41 +3,28 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Actions\Actionable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 
-class Claim extends Resource
+class ClaimsComment extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Claim::class;
+    public static $model = \App\Models\ClaimsComment::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'theme';
-
-    /**
-     * The relationships that should be eager loaded on index queries.
-     *
-     * @var array
-     */
-    public static $with = ['contact', 'user', 'priority'];
-
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -46,7 +33,15 @@ class Claim extends Resource
      */
     public static $search = [
         'id',
+        'body'
     ];
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['user'];
 
     /**
      * The logical group associated with the resource.
@@ -62,7 +57,7 @@ class Claim extends Resource
      */
     public static function label()
     {
-        return __('Claims');
+        return __('Comments');
     }
 
     /**
@@ -72,7 +67,7 @@ class Claim extends Resource
      */
     public static function singularLabel()
     {
-        return __('Claim');
+        return __('Comment');
     }
 
     /**
@@ -96,6 +91,13 @@ class Claim extends Resource
     }
 
     /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -105,28 +107,20 @@ class Claim extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make(__('Theme'), 'theme')->rules('required')->asHtml(),
-            BelongsTo::make('contact')->rules('required'),
-            BelongsTo::make('user')->rules('required'),
-            BelongsTo::make('priority')->rules('required'),
-            Trix::make(__('Appeal'),'appeal')
-                ->rules('required', 'min:20')
-                ->alwaysShow()
-                ->hideFromIndex(),
-            Boolean::make(__('Departure'), 'departure')
-                ->trueValue(1)
-                ->falseValue(0)
-                ->hideFromIndex(),
-            Boolean::make(__('Active'), 'active')
-                ->trueValue(1)
-                ->falseValue(0),
-            File::make('Attachment'),
-
-            HasMany::make('ClaimsComments')
+            Text::make('claim_id')
+                ->fillUsing(function ($request, $model, $attribute, $requestAttribute){
+                    $model->id;
+                })->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->hideFromIndex()
+                ->hideFromDetail(),
+            BelongsTo::make( 'user')
+                ->default($request->user()->getKey()),
+            Trix::make(__('Comment'), 'body')->rules('required', 'min:3')
+                ->alwaysShow(),
 
         ];
     }
-
 
     /**
      * Get the cards available for the request.
@@ -136,11 +130,7 @@ class Claim extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            new Metrics\MetricsClaims,
-            new Metrics\CountDepartureClaims,
-            new Metrics\OpenClaims
-        ];
+        return [];
     }
 
     /**
